@@ -1,5 +1,5 @@
 
-![Alt text](relative/path/to/image.png)](https://github.com/SebastianRautenbach/.ZER/blob/main/.zer1.png)
+![](https://github.com/SebastianRautenbach/.ZER/blob/main/.zer1.png)
 
 # .ZER
 Serializer for c++ projects 
