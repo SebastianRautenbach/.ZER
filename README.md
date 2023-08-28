@@ -1,7 +1,5 @@
 
-![](https://github.com/SebastianRautenbach/.ZER/blob/main/.zer1.png)
-
-# .ZER
+![](https://github.com/SebastianRautenbach/.ZER/blob/60d14ed8ff5886720a5561a56e1891b2c526478d/.zer2.png)
 Serializer for c++ projects 
 
 # -setting up a class
