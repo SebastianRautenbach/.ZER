@@ -86,7 +86,6 @@ namespace filedata
 
 		}
 		~ZER() {
-			std::cout << "called";
 		}
 
 		ZER& c_class_struct(std::string id) {
@@ -225,10 +224,11 @@ namespace filedata
 
 			for (auto i : this->variables)
 			{
-				int index_found_at = i.find(var_name) + var_name.size();
+				int index_found_at = i.find(var_name) ;
 				if (index_found_at != -1)
 				{
-					variable_value = retrieve_right_operand(i, index_found_at) + ","; break;
+					index_found_at += var_name.size();
+					variable_value = retrieve_right_operand(i, index_found_at ) + ","; break;
 				}
 			}
 			for (const char i : variable_value)
@@ -251,9 +251,10 @@ namespace filedata
 
 			for (auto i : this->variables)
 			{
-				int index_found_at = i.find(var_name) + var_name.size();
+				int index_found_at = i.find(var_name);
 				if (index_found_at != -1)
 				{
+					index_found_at += var_name.size();
 					variable_value = retrieve_right_operand(i, index_found_at) + ","; break;
 				}
 			}
@@ -277,10 +278,11 @@ namespace filedata
 
 			for (auto i : this->variables)
 			{
-				int index_found_at = i.find(var_name) + var_name.size();
+				int index_found_at = i.find(var_name);
 				if (index_found_at != -1)
 				{
-					variable_value = retrieve_right_operand(i, index_found_at) + ","; break;
+					index_found_at += var_name.size();
+					variable_value = retrieve_right_operand(i, index_found_at ) + ","; break;
 				}
 			}
 			for (const char i : variable_value)
@@ -313,8 +315,8 @@ namespace filedata
 
 		}
 
-		void save_file(ZER& property_ref) {
-			std::ofstream save_to_file("save.zer");
+		void save_file(ZER& property_ref, std::string filename = "save.zer") {
+			std::ofstream save_to_file(filename);
 			std::string file_save_data;
 
 
