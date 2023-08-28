@@ -220,7 +220,7 @@ namespace filedata
 		std::vector<int> get_int(std::string var_name) {
 
 			std::string variable_value;
-			std::string makeup_int;
+			std::string makeup_var;
 			std::vector<int> return_val;
 
 			for (auto i : this->variables)
@@ -234,19 +234,19 @@ namespace filedata
 			for (const char i : variable_value)
 			{
 				if (i == ',') {
-					return_val.push_back(std::stoi(makeup_int));
-					makeup_int.clear();
+					return_val.push_back(std::stoi(makeup_var));
+					makeup_var.clear();
 				}
 				else
 				{
-					makeup_int += i;
+					makeup_var += i;
 				}
 			}
 			return return_val;
 		}
 		std::vector<float> get_float(std::string var_name) {
 			std::string variable_value;
-			std::string makeup_int;
+			std::string makeup_var;
 			std::vector<float> return_val;
 
 			for (auto i : this->variables)
@@ -260,19 +260,19 @@ namespace filedata
 			for (const char i : variable_value)
 			{
 				if (i == ',') {
-					return_val.push_back(std::stof(makeup_int));
-					makeup_int.clear();
+					return_val.push_back(std::stof(makeup_var));
+					makeup_var.clear();
 				}
 				else
 				{
-					makeup_int += i;
+					makeup_var += i;
 				}
 			}
 			return return_val;
 		}
 		std::vector<std::string> get_string(std::string var_name) {
 			std::string variable_value;
-			std::string makeup_int;
+			std::string makeup_var;
 			std::vector<std::string> return_val;
 
 			for (auto i : this->variables)
@@ -286,12 +286,12 @@ namespace filedata
 			for (const char i : variable_value)
 			{
 				if (i == ',') {
-					return_val.push_back(makeup_int);
-					makeup_int.clear();
+					return_val.push_back(makeup_var);
+					makeup_var.clear();
 				}
 				else
 				{
-					makeup_int += i;
+					makeup_var += i;
 				}
 			}
 			return return_val;
