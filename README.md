@@ -1,6 +1,6 @@
 # .ZER
 Serializer for c++ projects 
-How to use:
+
 # -setting up a class
     filedata::ZER save_object;
 
