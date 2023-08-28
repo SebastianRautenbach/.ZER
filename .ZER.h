@@ -22,7 +22,7 @@
 			 Apache License 2.0
 			 ~~~~~~~~~~~~~~~~~~
 
-			 Copyright 2023
+			 All source and Images: Copyright 2023
 
 			 Redistribution and use in source and binary forms, with or without
 			 modification, are permitted provided that the following conditions
