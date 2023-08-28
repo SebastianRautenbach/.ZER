@@ -13,3 +13,8 @@ Serializer for c++ projects
 # -save and load files
 	save_object.read_file_cntx("save.zer");
 	save_object.save_file(save_object, "save.zer");
+ 
+# -retrieving variables
+	save_object["player"]["movement"].get_float("variable_name"); //this retrieves the whole array
+	save_object["player"].get_string("name_id")[0];   //this returns the first index of the array even if there is one value stored
+	save_object["player"].get_int("ID")[0];     //this returns the first index of the array even if there is one value stored
