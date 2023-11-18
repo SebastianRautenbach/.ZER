@@ -7,11 +7,11 @@
 
 
 /*
-			      ____________ _____
-			     |___  /  ____|  __ \
-				/ /| |__  | |__) |
-			       / / |  __| |  _  /
-			    _ / /__| |____| | \ \
+				  ____________ _____
+				 |___  /  ____|  __ \
+				    / /| |__  | |__) |
+				   / / |  __| |  _  /
+				_ / /__| |____| | \ \
 			   (_)_____|______|_|  \_\
 
 
@@ -27,19 +27,19 @@
 			 Redistribution and use in source and binary forms, with or without
 			 modification, are permitted provided that the following conditions
 			 are met:
-			 
+
 			 1. Redistributions or derivations of source code must retain the above
 			 copyright notice, this list of conditions and the following disclaimer.
-			 
+
 			 2. Redistributions or derivative works in binary form must reproduce
 			 the above copyright notice. This list of conditions and the following
 			 disclaimer must be reproduced in the documentation and/or other
 			 materials provided with the distribution.
-			 
+
 			 3. Neither the name of the copyright holder nor the names of its
 			 contributors may be used to endorse or promote products derived
 			 from this software without specific prior written permission.
-			 
+
 			 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 			 "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 			 LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -222,13 +222,13 @@ namespace filedata
 			std::string makeup_var;
 			std::vector<int> return_val;
 
-			for (auto i : this->variables)
+			for (const auto& i : this->variables)
 			{
-				int index_found_at = i.find(var_name) ;
+				int index_found_at = i.find(var_name);
 				if (index_found_at != -1)
 				{
 					index_found_at += var_name.size();
-					variable_value = retrieve_right_operand(i, index_found_at ) + ","; break;
+					variable_value = retrieve_right_operand(i, index_found_at) + ","; break;
 				}
 			}
 			for (const char i : variable_value)
@@ -282,7 +282,7 @@ namespace filedata
 				if (index_found_at != -1)
 				{
 					index_found_at += var_name.size();
-					variable_value = retrieve_right_operand(i, index_found_at ) + ","; break;
+					variable_value = retrieve_right_operand(i, index_found_at) + ","; break;
 				}
 			}
 			for (const char i : variable_value)
@@ -301,18 +301,31 @@ namespace filedata
 
 	public:
 		// iterate through this class's properties and variables
-		void read_class_properties(ZER& property_ref, std::string& file_save_data) {
+		void read_class_properties(ZER& property_ref, std::string& file_save_data, int& crnt_indentation) {
+	
 			for (const auto& i : property_ref.variables)
 			{
+				for (int i = 0; i < crnt_indentation + 1; i++)
+ 					file_save_data += "\t";
+
 				file_save_data += i + "\n";
 			}
 			for (const auto& i : property_ref.class_properties)
 			{
+				++crnt_indentation;
+
+				for (int i = 0; i < crnt_indentation; i++)
+					file_save_data += "\t";
+
 				file_save_data += i.second->property_id + "{\n";
-				read_class_properties(*i.second, file_save_data);
+				read_class_properties(*i.second, file_save_data, crnt_indentation);
+
+				for (int i = 0; i < crnt_indentation + 1; i++)
+					file_save_data += "\t";
+
 				file_save_data += "}\n";
 			}
-
+			--crnt_indentation;
 		}
 
 		void save_file(ZER& property_ref, std::string filename = "save.zer") {
@@ -320,7 +333,9 @@ namespace filedata
 			std::string file_save_data;
 
 
-			read_class_properties(property_ref, file_save_data);
+			std::erase(file_save_data, 9);
+			int indentation = -1;
+			read_class_properties(property_ref, file_save_data, indentation);
 
 
 			save_to_file << file_save_data;
@@ -361,8 +376,10 @@ namespace filedata
 
 
 
-		void construct_class_from_file(const std::string& data, ZER& root, int& starting_index) {
+		void construct_class_from_file( std::string& data, ZER& root, int& starting_index) {
 
+			// make sure to clear all indentation
+			std::erase(data, 9);
 
 			for (int i = starting_index; i < data.size(); i++)
 			{
