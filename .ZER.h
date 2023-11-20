@@ -305,6 +305,7 @@ namespace filedata
 	
 			for (const auto& i : property_ref.variables)
 			{
+				// give correct indentation
 				for (int i = 0; i < crnt_indentation + 1; i++)
  					file_save_data += "\t";
 
@@ -325,8 +326,16 @@ namespace filedata
 
 				file_save_data += "}\n";
 			}
+
+			// make sure when structure is complete to remove one indent
+
 			--crnt_indentation;
 		}
+
+
+
+
+
 
 		void save_file(ZER& property_ref, std::string filename = "save.zer") {
 			std::ofstream save_to_file(filename);
@@ -415,6 +424,7 @@ namespace filedata
 				file_data += line_data + '\n';
 			read_file.close();
 			int start_index = 0;
+			std::erase(file_data, 9);
 			construct_class_from_file(file_data, *this, start_index);
 
 		}
