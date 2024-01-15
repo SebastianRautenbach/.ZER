@@ -96,6 +96,35 @@ namespace filedata
 		}
 
 
+		// Remove the varname 
+
+		void remove_var(ZER& property_ref, std::string var_name) {
+			
+			for (const auto& i : property_ref.variables)
+			{
+				if (i.find(var_name) != -1)
+				{
+					property_ref.variables.erase(std::remove(property_ref.variables.begin(), property_ref.variables.end(), i), property_ref.variables.end());
+				}
+			}
+
+			return;
+		}
+
+
+		// if there is any char over 
+
+		void remove_non_ascii_char(std::string& str) {
+			std::string concat_str;
+			for (auto& i : str)
+			{
+				if (static_cast<unsigned char>(i) <= 127)
+					concat_str += i;
+			}
+			str = concat_str;
+		}
+
+
 
 		//the vector int value is there if you want to parse a array in the save file
 		//this function only adds the var name and value to a string for further
@@ -104,6 +133,11 @@ namespace filedata
 			bool value_does_exist = false;
 			std::string concat_string;
 
+			if (value.size() == 0)
+			{
+				remove_var(*this, var_name);
+				return;
+			}
 
 			//first lets find the variable if it exists
 			for (auto& i : variables)
@@ -141,6 +175,12 @@ namespace filedata
 			bool value_does_exist = false;
 			std::string concat_string;
 
+			if (value.size() == 0)
+			{
+				remove_var(*this, var_name);
+				return;
+			}
+
 
 			//first lets find the variable if it exists
 			for (auto& i : variables)
@@ -153,6 +193,7 @@ namespace filedata
 						concat_string += std::to_string(i) + ",";
 					}
 
+					remove_non_ascii_char(concat_string);
 
 					value_does_exist = true;
 					concat_string.pop_back();
@@ -168,6 +209,9 @@ namespace filedata
 				{
 					concat_string += std::to_string(i) + ",";
 				}
+
+				remove_non_ascii_char(concat_string);
+
 				concat_string.pop_back();
 				concat_string += ';';
 				variables.push_back(concat_string);
@@ -179,6 +223,12 @@ namespace filedata
 			bool value_does_exist = false;
 			std::string concat_string;
 
+			if (value.size() == 0)
+			{
+				remove_var(*this, var_name);
+				return;
+			}
+
 
 			//first lets find the variable if it exists
 			for (auto& i : variables)
@@ -189,9 +239,10 @@ namespace filedata
 					for (const auto& i : value)
 					{
 
-						concat_string += '"' + i + '"' + ",";
+						concat_string += i + ",";
 					}
 
+					remove_non_ascii_char(concat_string);
 
 					value_does_exist = true;
 					concat_string.pop_back();
@@ -207,6 +258,10 @@ namespace filedata
 				{
 					concat_string += i + ",";
 				}
+
+
+				remove_non_ascii_char(concat_string);
+
 				concat_string.pop_back();
 				concat_string += ';';
 				variables.push_back(concat_string);
@@ -296,6 +351,12 @@ namespace filedata
 					makeup_var += i;
 				}
 			}
+
+			if (return_val.empty())
+			{
+				return return_val;
+			}
+			
 			return return_val;
 		}
 
@@ -427,6 +488,12 @@ namespace filedata
 			std::erase(file_data, 9);
 			construct_class_from_file(file_data, *this, start_index);
 
+		}
+
+		void read_string_cntx(std::string string_data) {
+			int start_index = 0;
+			std::erase(string_data, 9);
+			construct_class_from_file(string_data, *this, start_index);
 		}
 
 
