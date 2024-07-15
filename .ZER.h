@@ -85,7 +85,11 @@ namespace filedata
 		ZER() {
 
 		}
+		// delete all dangling pointers
 		~ZER() {
+			for (auto& i : class_properties) {
+				delete i.second;
+			}
 		}
 
 		ZER& c_class_struct(std::string id) {
